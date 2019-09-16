@@ -1,0 +1,33 @@
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+private:
+    TreeNode *p=nullptr;
+    TreeNode *head=nullptr;
+public:
+    void R(TreeNode *root){
+        if(root==nullptr) return;
+        R(root->left);
+        if(head==nullptr){
+            head=root;
+            p=root;
+        }
+        else{
+            p->right=root;
+            root->left=p;
+            p=root;
+        }
+        R(root->right);
+    }
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        R(pRootOfTree);
+        return head;
+    }
