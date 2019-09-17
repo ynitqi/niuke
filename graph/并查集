@@ -1,0 +1,28 @@
+class Solution {
+    vector<int> p;
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        p = vector<int>(n);
+        for(int i=0;i<n;i++) p[i] = i;   //初始化
+        for(auto edge:edges){
+            int a = find(edge[0]);
+            int b = find(edge[1]);
+            if(a==b) return false;   //如果在未合并之前就有相同的祖先，那么必有环
+            p[find(edge[0])] = find(edge[1]);   //合并操作
+        }
+        for(int i=1;i<p.size();i++){
+            if(find(i)!=find(i-1))   //如果存在两个不同的祖先，那么必有环
+                return false;
+        }
+        return true;
+    }
+    int find(int x){
+        if(p[x] != x) p[x] = find(p[x]);
+        return p[x];
+    }
+};
+
+作者：xeibinlin
+链接：https://leetcode-cn.com/problems/graph-valid-tree/solution/chao-duan-bing-cha-ji-c-you-zhu-shi-by-xeibinlin/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
