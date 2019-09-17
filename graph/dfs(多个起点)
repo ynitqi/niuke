@@ -1,0 +1,37 @@
+class Solution {
+public:
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        const int kr=(1<<31)-1;
+		int m=rooms.size();
+		if(m==0) return;
+		int n=rooms[0].size();
+
+        queue<int*> q;							//队列存储指针 
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                if(rooms[i][j]==0){
+                    q.push(new int[2]{i,j});	//指针的初始化，可能多个起点，广度遍历先遍历到的最短。 
+                }
+            }
+        }
+        
+        int dx[4]={1,-1,0,0};
+        int dy[4]={0,0,1,-1};
+
+        while(!q.empty()){
+        	int *temp=q.front();
+        	int x=temp[0];
+        	int y=temp[1];
+        	for(int i=0;i<4;++i){
+        		int x1=x+dx[i];
+        		int y1=y+dy[i];
+        		if(x1<0||x1>=m||y1<0||y1>=n||rooms[x1][y1]!=kr) continue;	//continue 
+        		q.push(new int[2]{x1,y1});
+        		rooms[x1][y1]=rooms[x][y]+1;			//层序的层次数，不能在循环中++ 
+			}
+			
+			q.pop();
+        	
+		}
+    }
+};
