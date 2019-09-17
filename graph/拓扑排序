@@ -1,0 +1,88 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+
+using namespace std;
+
+bool helper(string a,string b,int &x,int &y);
+int main(void){
+	
+	int size;
+	string str;
+	vector<string> vec;
+	cin>>size;
+	map<int,int> smap;
+	while(size--){
+		cin>>str;
+		for(int i=0;i<str.size();++i){
+			++smap[str[i]-'a'];
+		}
+		vec.push_back(str);
+	}
+	
+	vector<vector<int>> m(26,vector<int>(26,0));
+	
+	int x,y;
+	for(int i=1;i<vec.size();++i){
+		if(helper(vec[i-1],vec[i],x,y)){
+			m[x][y]=1;
+		}
+	}
+	
+	map<int,int>::iterator iter;
+	vector<int> res;
+	while(!smap.empty()){
+		//且只有1个 入度为0，
+		int rd=0;
+		for(iter=smap.begin();iter!=smap.end();){
+			//入度为0，
+			int i;
+			for(i=0;i<26;++i){
+				if(m[i][iter->first]==1){
+					break;
+				}
+			}
+			if(i==26){
+				++rd;
+				res.push_back(iter->first);
+				smap.erase(iter++);
+			}
+			else{
+				++iter;
+			}
+		}
+		if(rd!=1){
+			cout<<"invalid"<<endl;
+			break;
+		}
+		else{
+			for(int i=0;i<26;++i){
+				m[res.back()][i]=0;
+			}
+		}
+	}
+	char re[26];
+	for(int i=0;i<res.size();++i){
+		re[i]=res[i]+'a';
+		cout<<re[i]<<' ';
+	}
+	cout<<endl;
+	
+	
+	
+	while(1){
+		
+	}
+} 
+
+bool helper(string a,string b,int &x,int &y){
+	for(int i=0;i<a.size()&&i<b.size();++i){
+		if(a[i]!=b[i]){
+			x=a[i]-'a';
+			y=b[i]-'a';
+			return true;
+		}
+	}
+	return false; //出现 b ba的情况 
+}
