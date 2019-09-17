@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class test {
+						//求最短路径（这边用的是深度，用广度不用回溯，直接求）
+    public static long dfs(boolean[][] grid,int i,int j){
+        if(i<0||i==grid.length||j<0||j==grid[0].length||grid[i][j])return Integer.MAX_VALUE;
+        if(i==grid.length-1&&j==grid[0].length-1)return 0;
+        int[] dx=new int[]{0,0,-1,1};
+        int[] dy=new int[]{-1,1,0,0};
+        long res=Integer.MAX_VALUE;
+        grid[i][j]=true;					//设置已经过
+        for(int index=0;index<4;index++){
+            res=Math.min(res,dfs(grid,i+dx[index],j+dy[index]));	//递推
+        }
+        grid[i][j]=false;					//回溯
+        return res;					//return res+1；
+    }
+    public static  void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n,m,k,x,y;
+        n=sc.nextInt();m=sc.nextInt();k=sc.nextInt();
+        boolean[][] grid=new boolean[n][m];
+        for(int i=0;i<k;i++){
+            x=sc.nextInt();
+            y=sc.nextInt();
+            grid[x][y]=true;
+        }
+        long res=dfs(grid,0,0);
+        if(res>=Integer.MAX_VALUE)System.out.println(0);
+        else System.out.println(res);
+    }
+
+}
