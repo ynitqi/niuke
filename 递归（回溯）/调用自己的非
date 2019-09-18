@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool canWin(string s) {
+        int m=s.size();
+        if(m==0||m==1) return false;
+        for(int i=1;i<m;++i){
+            if(s[i]=='+'&&s[i-1]=='+' ){
+                string tmp=s;
+                tmp[i]='-';tmp[i-1]='-';
+                if(!canWin(tmp)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
